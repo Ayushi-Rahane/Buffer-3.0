@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload Form</title>
     <style>
         body {
@@ -10,6 +12,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
         }
         .container {
             background: white;
@@ -17,6 +20,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 400px;
         }
         input[type="file"] {
             margin: 10px 0;
@@ -28,22 +32,43 @@
             padding: 10px 15px;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
         }
         input[type="submit"]:hover {
             background: #218838;
         }
+        .output-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h2>Upload a File</h2>
+        <h2>Upload a PDF File</h2>
         <form id="uploadForm" onsubmit="UploadFile(event)" enctype="multipart/form-data">
-            <label for="file">Choose a file:</label>
-            <input type="file" id="syllabus_pdf" name="syllabus_pdf" accept="application/pdf" id="file" required>
+            <label for="syllabus_pdf">Choose a file:</label>
+            <input type="file" id="syllabus_pdf" name="syllabus_pdf" accept="application/pdf" required>
             <br><br>
             <input type="submit" value="Upload">
         </form>
+
+        <div class="output-container">
+            <h2>Extracted Text:</h2>
+            <pre>{{ extracted_text }}</pre>
+        </div>
     </div>
+
+    <script src="./static/script.js"></script>
+
 </body>
-<script src="./static/script.js"></script>
 </html>

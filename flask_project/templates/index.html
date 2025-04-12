@@ -65,6 +65,14 @@
         <div class="output-container">
             <h2>Extracted Text:</h2>
             <pre>{{ extracted_text }}</pre>
+
+            <h2>Top Keywords:</h2>
+            <ul>
+            {% for keyword in keywords %}
+                <li>{{ keyword }}</li>
+            {% endfor %}
+            </ul>
+
         </div>
     </div>
 

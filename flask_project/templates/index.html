@@ -21,6 +21,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 800px;
+            margin-bottom: 50px;
         }
         input[type="file"] {
             margin: 10px 0;
@@ -47,16 +48,15 @@
         }
         h2 {
             color: #333;
+            margin-top: 30px;
         }
         ul {
             list-style-type: disc;
             text-align: left;
+            padding-left: 20px;
         }
         .video-list {
             margin-top: 20px;
-        }
-        .video-list li {
-            margin-bottom: 10px;
         }
         .video-list li {
             display: flex;
@@ -79,11 +79,53 @@
         }
         .video-list a:hover {
             text-decoration: underline;
-        }        
+        }
+        /* New styles for website results */
+        .website-list {
+            margin-top: 20px;
+        }
+        .website-item {
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .website-title {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+        .website-title a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .website-title a:hover {
+            text-decoration: underline;
+        }
+        .website-snippet {
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .website-url {
+            color: #006621;
+            font-size: 0.9em;
+            word-break: break-all;
+        }
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .results-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h2>Upload a PDF File</h2>
         <form id="uploadForm" enctype="multipart/form-data">
@@ -92,52 +134,52 @@
             <br><br>
             <input type="submit" value="Upload">
         </form>
-
         <div class="output-container">
             <h2>Extracted Text:</h2>
             <pre id="extractedText">{{ extracted_text }}</pre>
-
             <h2>Top Keywords:</h2>
             <ul id="keywordList">
                 {% for keyword in keywords %}
                     <li>{{ keyword }}</li>
                 {% endfor %}
             </ul>
-
-            <div class="video-list">
-                <h2>Related YouTube Videos:</h2>
-                <ul id="videoResults">
-                    <!-- JS will inject videos here -->
-                </ul>
+            
+            <div class="results-container">
+                <div class="video-list">
+                    <h2>Related YouTube Videos:</h2>
+                    <ul id="videoResults">
+                        <!-- JS will inject videos here -->
+                    </ul>
+                </div>
+                
+                <div class="website-list">
+                    <h2>Related Websites:</h2>
+                    <div id="websiteResults">
+                        <!-- JS will inject websites here -->
+                    </div>
+                </div>
             </div>
-
-
         </div>
     </div>
-
     <script>
         const uploadForm = document.getElementById('uploadForm');
         const extractedTextElem = document.getElementById('extractedText');
         const keywordList = document.getElementById('keywordList');
         const videoList = document.getElementById('videoResults');
         const websiteList = document.getElementById('websiteResults');
-
+        
         uploadForm.addEventListener('submit', async function (e) {
             e.preventDefault();
-
             const formData = new FormData(uploadForm);
-
             try {
                 const response = await fetch('/upload', {
                     method: 'POST',
                     body: formData
                 });
-
                 const data = await response.json();
-
                 if (data.success) {
                     extractedTextElem.textContent = data.extracted_text;
-
+                    
                     // Show keywords
                     keywordList.innerHTML = '';
                     data.keywords.forEach(keyword => {
@@ -145,7 +187,7 @@
                         li.textContent = keyword;
                         keywordList.appendChild(li);
                     });
-
+                    
                     // Show videos
                     videoList.innerHTML = '';
                     data.videos.forEach(video => {
@@ -172,14 +214,42 @@
                         li.appendChild(a);
                         videoList.appendChild(li);
                     });
-                } else if (data.error) {
-                    alert("Error: " + data.error);
-                } else if (data.message) {
-                    alert(data.message);
-                } else if (data.error) {                        
                     
-
-                } else {
+                    // Show websites
+                    websiteList.innerHTML = '';
+                    if (data.websites && data.websites.length > 0) {
+                        data.websites.forEach(website => {
+                            const websiteDiv = document.createElement('div');
+                            websiteDiv.className = 'website-item';
+                            
+                            const titleElement = document.createElement('h3');
+                            titleElement.className = 'website-title';
+                            
+                            const linkElement = document.createElement('a');
+                            linkElement.href = website.url;
+                            linkElement.textContent = website.title;
+                            linkElement.target = "_blank";
+                            
+                            titleElement.appendChild(linkElement);
+                            
+                            const snippetElement = document.createElement('p');
+                            snippetElement.className = 'website-snippet';
+                            snippetElement.textContent = website.snippet;
+                            
+                            const urlElement = document.createElement('p');
+                            urlElement.className = 'website-url';
+                            urlElement.textContent = website.url;
+                            
+                            websiteDiv.appendChild(titleElement);
+                            websiteDiv.appendChild(snippetElement);
+                            websiteDiv.appendChild(urlElement);
+                            
+                            websiteList.appendChild(websiteDiv);
+                        });
+                    } else {
+                        websiteList.innerHTML = '<p>No relevant websites found.</p>';
+                    }
+                } else if (data.error) {
                     alert("Error: " + data.error);
                 }
             } catch (err) {
@@ -188,6 +258,5 @@
             }
         });
     </script>
-
 </body>
 </html>

@@ -13,32 +13,11 @@ YOUTUBE_API_KEY = "AIzaSyDTaXioc_E8_2jp8p3ULsAM6E7Sn8a00ms"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
-RAPIDAPI_KEY = "4de2a67504mshbead1d7f14f4773p15b0ddjsn825b5608a30b"
+
 # Set up MongoDB connection
 app.config["MONGO_URI"] = "mongodb://localhost:27017/Buffer30"
 mongo = PyMongo(app)
 fs = gridfs.GridFS(mongo.db)
-
-#Fetches the websites
-def fetch_related_websites(query, max_results=5):
-    url = "https://bing-web-search1.p.rapidapi.com/search"
-    headers = {
-        "X-RapidAPI-Key": RAPIDAPI_KEY,
-        "X-RapidAPI-Host": "bing-web-search1.p.rapidapi.com"
-    }
-    params = {"q": query, "count": max_results, "textFormat": "Raw", "safeSearch": "Moderate"}
-
-    response = requests.get(url, headers=headers, params=params)
-    results = []
-
-    if response.status_code == 200:
-        data = response.json()
-        for item in data.get("webPages", {}).get("value", []):
-            results.append({
-                "name": item["name"],
-                "url": item["url"]
-            })
-    return results
 
 # ✅ Function to fetch YouTube videos for a given keyword
 def fetch_youtube_videos(query, max_results=2):
@@ -113,11 +92,7 @@ def upload_and_extract():
         for kw in keywords[:3]:
             video_results.extend(fetch_youtube_videos(kw))
         
-        # Fetch related websites for the first keyword (you can tweak this)
-        website_results = []
-        if keywords:
-            for keyword in keywords[:2]:
-                website_results.extend(fetch_related_websites(keyword))
+
         
         # Save data to DB
         mongo.db.syllabus_text.insert_one({
@@ -131,7 +106,7 @@ def upload_and_extract():
             "extracted_text": text,
             "keywords": list(keywords),
             "videos": video_results,
-            "websites": website_results
+        
             
         })
         

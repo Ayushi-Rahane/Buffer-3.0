@@ -111,11 +111,7 @@
                 </ul>
             </div>
 
-            <div class="website-list">
-                <h2>Related Websites:</h2>
-                <ul id="websiteResults"></ul>
-            </div>
-            
+
         </div>
     </div>
 
@@ -124,6 +120,7 @@
         const extractedTextElem = document.getElementById('extractedText');
         const keywordList = document.getElementById('keywordList');
         const videoList = document.getElementById('videoResults');
+        const websiteList = document.getElementById('websiteResults');
 
         uploadForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -175,6 +172,11 @@
                         li.appendChild(a);
                         videoList.appendChild(li);
                     });
+                } else if (data.error) {
+                    alert("Error: " + data.error);
+                } else if (data.message) {
+                    alert(data.message);
+                } else if (data.error) {                        
                     
 
                 } else {

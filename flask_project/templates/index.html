@@ -1,262 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Keyword Extractor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            padding-top: 50px;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 50px;
-        }
-        input[type="file"] {
-            margin: 10px 0;
-        }
-        input[type="submit"] {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        input[type="submit"]:hover {
-            background: #218838;
-        }
-        pre {
-            background: #eee;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 300px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-        }
-        h2 {
-            color: #333;
-            margin-top: 30px;
-        }
-        ul {
-            list-style-type: disc;
-            text-align: left;
-            padding-left: 20px;
-        }
-        .video-list {
-            margin-top: 20px;
-        }
-        .video-list li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .video-list img {
-            width: 120px;
-            height: auto;
-            border-radius: 5px;
-        }
-        .video-list a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .video-list a:hover {
-            text-decoration: underline;
-        }
-        /* New styles for website results */
-        .website-list {
-            margin-top: 20px;
-        }
-        .website-item {
-            background: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
-        }
-        .website-title {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-        .website-title a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .website-title a:hover {
-            text-decoration: underline;
-        }
-        .website-snippet {
-            color: #555;
-            margin-bottom: 8px;
-        }
-        .website-url {
-            color: #006621;
-            font-size: 0.9em;
-            word-break: break-all;
-        }
-        .results-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        @media (min-width: 768px) {
-            .results-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SURE - Syllabus PDF Keyword Extractor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h2>Upload a PDF File</h2>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <label for="syllabus_pdf">Choose a file:</label>
-            <input type="file" id="syllabus_pdf" name="syllabus_pdf" accept="application/pdf" required>
-            <br><br>
-            <input type="submit" value="Upload">
-        </form>
-        <div class="output-container">
-            <h2>Extracted Text:</h2>
-            <pre id="extractedText">{{ extracted_text }}</pre>
-            <h2>Top Keywords:</h2>
-            <ul id="keywordList">
-                {% for keyword in keywords %}
-                    <li>{{ keyword }}</li>
-                {% endfor %}
-            </ul>
-            
-            <div class="results-container">
-                <div class="video-list">
-                    <h2>Related YouTube Videos:</h2>
-                    <ul id="videoResults">
-                        <!-- JS will inject videos here -->
-                    </ul>
-                </div>
-                
-                <div class="website-list">
-                    <h2>Related Websites:</h2>
-                    <div id="websiteResults">
-                        <!-- JS will inject websites here -->
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="header">
+    <div class="logo">S</div>
+    <div class="title">SURE</div>
+  </div>
+
+  <!-- Card for Upload Form -->
+  <div class="card">
+    <h2>Syllabus PDF Keyword Extractor</h2>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <label for="syllabus_pdf">Upload your syllabus:</label>
+      <div class="upload-area" id="uploadArea">
+        <label for="syllabus_pdf" class="upload-label">
+            <img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNzgwMDAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnL3N2ZyI+PHBhdGggZD0iTTEyIDMgTDEyIDE1IE0xMiAxNSBMMTUgMTIgTDEyIDkgTDkgMTIgTDEyIDE1IFpNNSAxOCBMNSAxOCBMNSAxOCBMNSAxOCBMNSAxOCBMNSA4LjUgQzUgNy40NSA1LjY1IDYuNjIgNi42IDYuMzEgQzcuNjcgNS45IDguODIgNi4zNCA5LjMxIDcuMjIgQzkuNzUgOC4wNSAxMC44OSA4LjUgMTIgOC41IEMxMy4xMSA4LjUgMTQuMjUgOC4wNSAxNC42OSA3LjIyIEMxNS4xOCA2LjM0IDE2LjMzIDUuOSA3LjQgNi4zMSBDOC4zNSA2LjYyIDkgNy40NSA5IDguNSBMOSA4LjUgTDE5IDE4IiBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==" alt="Upload" class="upload-icon" />
+        </label>
+
+          <p><strong>Click to upload</strong> or drag & drop your PDF here</p>
+          <span id="file-name">No file selected</span>
+        </label>
+        <input type="file" id="syllabus_pdf" name="syllabus_pdf" accept="application/pdf" hidden required />
+      </div>
+      <input type="submit" value="Upload and Analyze" />
+    </form>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div id="loading" class="loading" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p>Processing syllabus, please wait...</p>
+  </div>
+
+  <!-- Card for Results -->
+  <div id="output-container" class="output-container">
+    <div class="results-container">
+      <div class="video-list card">
+        <h2>YouTube Videos:</h2>
+        <ul id="videoResults"></ul>
+      </div>
+
+      <div class="website-list card">
+        <h2>Relevant Websites:</h2>
+        <div id="websiteResults"></div>
+      </div>
     </div>
-    <script>
-        const uploadForm = document.getElementById('uploadForm');
-        const extractedTextElem = document.getElementById('extractedText');
-        const keywordList = document.getElementById('keywordList');
-        const videoList = document.getElementById('videoResults');
-        const websiteList = document.getElementById('websiteResults');
-        
-        uploadForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const formData = new FormData(uploadForm);
-            try {
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                if (data.success) {
-                    extractedTextElem.textContent = data.extracted_text;
-                    
-                    // Show keywords
-                    keywordList.innerHTML = '';
-                    data.keywords.forEach(keyword => {
-                        const li = document.createElement('li');
-                        li.textContent = keyword;
-                        keywordList.appendChild(li);
-                    });
-                    
-                    // Show videos
-                    videoList.innerHTML = '';
-                    data.videos.forEach(video => {
-                        const li = document.createElement('li');
-                        li.style.display = "flex";
-                        li.style.alignItems = "center";
-                    
-                        const img = document.createElement('img');
-                        img.src = video.thumbnail;
-                        img.alt = video.title;
-                        img.style.width = "120px";
-                        img.style.marginRight = "10px";
-                        img.style.borderRadius = "8px";
-                    
-                        const a = document.createElement('a');
-                        a.href = video.url;
-                        a.textContent = video.title;
-                        a.target = "_blank";
-                        a.style.fontWeight = "bold";
-                        a.style.color = "#000";
-                        a.style.textDecoration = "none";
-                    
-                        li.appendChild(img);
-                        li.appendChild(a);
-                        videoList.appendChild(li);
-                    });
-                    
-                    // Show websites
-                    websiteList.innerHTML = '';
-                    if (data.websites && data.websites.length > 0) {
-                        data.websites.forEach(website => {
-                            const websiteDiv = document.createElement('div');
-                            websiteDiv.className = 'website-item';
-                            
-                            const titleElement = document.createElement('h3');
-                            titleElement.className = 'website-title';
-                            
-                            const linkElement = document.createElement('a');
-                            linkElement.href = website.url;
-                            linkElement.textContent = website.title;
-                            linkElement.target = "_blank";
-                            
-                            titleElement.appendChild(linkElement);
-                            
-                            const snippetElement = document.createElement('p');
-                            snippetElement.className = 'website-snippet';
-                            snippetElement.textContent = website.snippet;
-                            
-                            const urlElement = document.createElement('p');
-                            urlElement.className = 'website-url';
-                            urlElement.textContent = website.url;
-                            
-                            websiteDiv.appendChild(titleElement);
-                            websiteDiv.appendChild(snippetElement);
-                            websiteDiv.appendChild(urlElement);
-                            
-                            websiteList.appendChild(websiteDiv);
-                        });
-                    } else {
-                        websiteList.innerHTML = '<p>No relevant websites found.</p>';
-                    }
-                } else if (data.error) {
-                    alert("Error: " + data.error);
-                }
-            } catch (err) {
-                console.error("Upload error:", err);
-                alert("Something went wrong.");
-            }
-        });
-    </script>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

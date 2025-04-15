@@ -1,0 +1,220 @@
+:root {
+    --primary-color: #780000;
+    --secondary-color: #c1121f;
+    --background-color: #f5f5f5;
+    --text-color: #222;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding-top: 40px;
+}
+
+/* Header Style */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Card Style for Main Sections */
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Style for Buttons and Inputs */
+input[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background: var(--secondary-color);
+}
+
+/* Form Layout */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Video List and Website List */
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.video-list, .website-list {
+    background-color: var(--accent-bg);
+    padding: 20px;
+    border-radius: 12px;
+    width: 48%;
+    box-shadow: var(--card-shadow);
+}
+
+.video-list ul, .website-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.video-list li, .website-item {
+    background-color: var(--light-blue);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: var(--card-shadow);
+}
+
+.video-list img {
+    width: 80px;
+    border-radius: 8px;
+}
+
+/* Loading Spinner */
+.loading {
+    background: #ffece6;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px 0;
+    box-shadow: var(--card-shadow);
+}
+
+.loading-spinner {
+    border: 4px solid #ffe0d0;
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+}
+.video-list li, .website-item {
+    background-color: var(--card-bg);
+    border: 1px solid #ddd;
+}
+
+/* Add image styling */
+.banner-img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .results-container {
+        flex-direction: column;
+    }
+
+    .video-list, .website-list {
+        width: 100%;
+    }
+
+    .card {
+        width: 90%;
+    }
+}
+
+.upload-area {
+    border: 2px dashed var(--primary-color);
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .upload-area:hover {
+    background: #fff5f5;
+    border-color: var(--secondary-color);
+  }
+  
+  .upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color);
+    cursor: pointer;
+  }
+  
+  .upload-icon {
+    width: 60px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+  
+  #file-name {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+  }
+  

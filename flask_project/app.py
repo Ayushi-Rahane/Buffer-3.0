@@ -73,7 +73,7 @@ class ContentPriorityQueue:
 
 app = Flask(__name__)
 
-YOUTUBE_API_KEY = "AIzaSyDTaXioc_E8_2jp8p3ULsAM6E7Sn8a00ms"
+YOUTUBE_API_KEY = "AIzaSyB8eAtxjQItHOp2y_UPfjFkRahhNU8TIkQ"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 

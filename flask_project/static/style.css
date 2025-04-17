@@ -7,7 +7,6 @@
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-
 * {
     box-sizing: border-box;
 }
@@ -24,6 +23,7 @@ body {
     justify-content: flex-start;
     min-height: 100vh;
     padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 /* Header Style */
@@ -69,6 +69,8 @@ body {
     color: var(--primary-color);
     font-size: 24px;
     margin-bottom: 15px;
+    border-bottom: 2px solid rgba(120, 0, 0, 0.1);
+    padding-bottom: 8px;
 }
 
 /* Style for Buttons and Inputs */
@@ -82,6 +84,7 @@ input[type="submit"] {
     cursor: pointer;
     transition: background 0.3s ease;
     width: 100%;
+    font-weight: bold;
 }
 
 input[type="submit"]:hover {
@@ -97,18 +100,19 @@ form {
 
 /* Video List and Website List */
 .results-container {
+    margin-left: 133px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
     justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
 }
 
-.video-list, .website-list {
-    background-color: var(--accent-bg);
-    padding: 20px;
-    border-radius: 12px;
-    width: 48%;
-    box-shadow: var(--card-shadow);
+.video-list,
+.website-list {
+    width: 45%; /* Adjusted for wider gap */
+    box-sizing: border-box;
 }
 
 .video-list ul, .website-list {
@@ -117,14 +121,53 @@ form {
 }
 
 .video-list li, .website-item {
-    background-color: var(--light-blue);
+    background-color: var(--card-bg);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 12px;
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    align-items: center;
-    box-shadow: var(--card-shadow);
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.website-item {
+    padding: 15px;
+    margin:22px;
+}
+
+.website-title {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.website-title a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.website-title a:hover {
+    text-decoration: underline;
+}
+
+.website-snippet {
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.website-url {
+    color: #888;
+    font-size: 12px;
+    margin-top: 5px;
+    word-break: break-all;
+}
+
+.websiteResults {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
 }
 
 .video-list img {
@@ -153,24 +196,60 @@ form {
     animation: spin 1s linear infinite;
     margin: 0 auto 12px;
 }
-.video-list li, .website-item {
-    background-color: var(--card-bg);
-    border: 1px solid #ddd;
+
+/* Output container */
+.output-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Add image styling */
-.banner-img {
-    max-width: 100%;
-    border-radius: 12px;
-    margin-bottom: 16px;
-}
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Upload area styling */
+.upload-area {
+    border: 2px dashed var(--primary-color);
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+  
+.upload-area:hover {
+    background: #fff5f5;
+    border-color: var(--secondary-color);
+}
+  
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-color);
+    cursor: pointer;
+}
+  
+.upload-icon {
+    width: 60px;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+  
+#file-name {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
 }
 
 @media (max-width: 768px) {
     .results-container {
         flex-direction: column;
+        width: 90%;
     }
 
     .video-list, .website-list {
@@ -182,39 +261,8 @@ form {
     }
 }
 
-.upload-area {
-    border: 2px dashed var(--primary-color);
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--card-shadow);
-  }
-  
-  .upload-area:hover {
-    background: #fff5f5;
-    border-color: var(--secondary-color);
-  }
-  
-  .upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-color);
-    cursor: pointer;
-  }
-  
-  .upload-icon {
-    width: 60px;
-    margin-bottom: 12px;
-    opacity: 0.8;
-  }
-  
-  #file-name {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 10px;
+.upload-area.dragover {
+    border: 2px dashed #0066cc;
+    background-color: #f0f8ff;
   }
   

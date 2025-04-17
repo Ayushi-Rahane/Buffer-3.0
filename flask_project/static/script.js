@@ -42,7 +42,9 @@ uploadForm.addEventListener('submit', async function (e) {
     
     // Show loading indicator
     loadingIndicator.style.display = 'block';
-    outputContainer.classList.add('loading');
+    
+    // Hide output container while loading
+    outputContainer.style.display = 'none';
     
     try {
         const response = await fetch('/upload', {
@@ -53,9 +55,11 @@ uploadForm.addEventListener('submit', async function (e) {
         
         // Hide loading indicator
         loadingIndicator.style.display = 'none';
-        outputContainer.classList.remove('loading');
         
         if (data.success) {
+            // Show output container now that we have data
+            outputContainer.style.display = 'block';
+            
             // Show videos
             videoList.innerHTML = '';
             data.videos.forEach(video => {
@@ -151,7 +155,6 @@ uploadForm.addEventListener('submit', async function (e) {
     } catch (err) {
         // Hide loading indicator on error
         loadingIndicator.style.display = 'none';
-        outputContainer.classList.remove('loading');
         
         console.error("Upload error:", err);
         alert("Something went wrong.");
@@ -159,12 +162,41 @@ uploadForm.addEventListener('submit', async function (e) {
 });
 
 
-  document.getElementById("syllabus_pdf").addEventListener("change", function () {
-    const fileName = this.files[0]?.name || "No file selected";
-    document.getElementById("file-name").textContent = fileName;
-  });
+document.getElementById("syllabus_pdf").addEventListener("change", function () {
+  const fileName = this.files[0]?.name || "No file selected";
+  document.getElementById("file-name").textContent = fileName;
+});
 
-  // Optional: make the entire area clickable
-  document.getElementById("uploadArea").addEventListener("click", () => {
-    document.getElementById("syllabus_pdf").click();
+// Optional: make the entire area clickable
+document.getElementById("uploadArea").addEventListener("click", () => {
+  document.getElementById("syllabus_pdf").click();
+});
+
+const uploadArea = document.getElementById("uploadArea");
+const fileInput = document.getElementById("syllabus_pdf");
+
+["dragenter", "dragover"].forEach(eventName => {
+  uploadArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadArea.classList.add("dragover");
   });
+});
+
+["dragleave", "drop"].forEach(eventName => {
+  uploadArea.addEventListener(eventName, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadArea.classList.remove("dragover");
+  });
+});
+
+uploadArea.addEventListener("drop", e => {
+  const files = e.dataTransfer.files;
+  if (files.length > 0 && files[0].type === "application/pdf") {
+    fileInput.files = files; // Assign to hidden input
+    document.getElementById("file-name").textContent = files[0].name;
+  } else {
+    alert("Please upload a valid PDF file.");
+  }
+});

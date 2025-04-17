@@ -17,6 +17,9 @@ import heapq
 from collections import defaultdict
 import heapq
 
+import os
+from dotenv import load_dotenv
+
 class ContentPriorityQueue:
     """
     A priority queue implementation to rank content based on relevance scores.
@@ -73,7 +76,10 @@ class ContentPriorityQueue:
 
 app = Flask(__name__)
 
-YOUTUBE_API_KEY = "AIzaSyB8eAtxjQItHOp2y_UPfjFkRahhNU8TIkQ"
+load_dotenv()
+
+
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 

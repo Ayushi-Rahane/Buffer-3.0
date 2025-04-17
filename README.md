@@ -7,12 +7,22 @@
 
 ---
 ## 🚀 Project Overview
+**Problem Statement:** Syllabus-Based Educational Resource Recommendation Platform
 
 **SURE (Syllabus-based Useful Resource Explorer)** is a smart academic support tool that allows students to upload their **syllabus PDF** and instantly receive a list of **relevant YouTube videos** and **web resources** for each topic.
 
 It uses **Data Structures and Algorithms (DSA)** such as **priority queues**, **text similarity ranking**, and **custom parsing logic** to extract topics and recommend learning material — all in a few seconds.
 
 > ✨ Say goodbye to wasting time on irrelevant search results!
+
+---
+
+## 📷 Screenshots
+
+### Main Section
+![Screenshot 1](readme/ss1.png)
+
+![Screenshot 2](readme/ss2.png)
 
 ---
 

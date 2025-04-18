@@ -3,7 +3,7 @@
 > 🏆 **DSA Project Submission for Buffer 6.0 – Organized by Team Loop, Cummins College of Engineering**
 >
 > 🎯 **Theme:** Next-Gen Academic Solutions  
-> 📽️ **Demo Video:** [Watch on Google Drive]([https://drive.google.com/your-demo-link](https://drive.google.com/file/d/1tUKZsmlVr_P0Yc2FiCMPBvpjjUVx_Vx9/view?usp=sharing))
+> 📽️ **Demo Video:** [Watch on Google Drive]((https://drive.google.com/file/d/1tUKZsmlVr_P0Yc2FiCMPBvpjjUVx_Vx9/view?usp=sharing))
 
 ---
 ## 🚀 Project Overview
